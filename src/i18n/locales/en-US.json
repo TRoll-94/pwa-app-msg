@@ -1,0 +1,21 @@
+{
+  "alreadyRegistered": "Already registered",
+  "dontHaveAccount": "Don't have an account?",
+  "email": "Email",
+  "failed": "Action failed",
+  "forgotYourPassword": "Forgot your password?",
+  "login": "Login",
+  "loginButton": "Login",
+  "loginPage": "Login Page",
+  "loginTitle": "Log in to your account",
+  "logout": "Logout",
+  "password": "Password",
+  "projectTitle": "PWA App",
+  "register": "Register",
+  "registerTitle": "Register",
+  "restorePassword": "Restore password",
+  "success": "Action was successful",
+  "successfulLogin": "Successful login",
+  "successfulLogout": "You have been logged out",
+  "successfulRegistration": "Successful registration"
+}
