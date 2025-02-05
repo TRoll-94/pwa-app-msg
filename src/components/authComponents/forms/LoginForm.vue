@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import {useFirebaseAuth} from "vuefire";
-import {signInWithEmailAndPassword} from "firebase/auth";
+import {sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
 import PasswordInput from "components/inputs/passwordInput.vue";
 import {useI18n} from "vue-i18n";
 import {useQuasar} from "quasar";
@@ -53,14 +53,14 @@ const submitHandler = () => {
         <div class="q-mr-md">{{ $t('forgotYourPassword') }}</div>
         <c-btn
           :label="$t('restorePassword')" flat no-caps text-color="secondary"
-          :to="{'name': 'password.reset'}"
+          :to="{name: 'password.reset'}"
         />
       </div>
       <div class="flex text-no-wrap no-wrap items-center">
         <div class="q-mr-md">{{ $t('dontHaveAccount') }}</div>
         <c-btn
           :label="$t('register')" flat no-caps text-color="secondary"
-          :to="{'name': 'register'}"
+          :to="{name: 'register'}"
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ watch(user, (currentUser, previousUser) => {
 })
 
 onMounted(() => {
-  if (user && !route.meta.requiredAuth) {
+  if (user.value && !route.meta.requiredAuth) {
     redirect()
   }
 })

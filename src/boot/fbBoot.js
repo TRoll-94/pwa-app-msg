@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import {getCurrentUser, VueFire, VueFireAuth} from "vuefire";
 import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
 
 
 export const firebaseApp = initializeApp({
@@ -14,7 +15,7 @@ export const firebaseApp = initializeApp({
   measurementId: "G-G5WS753TCB"
 })
 
-
+export const db = getFirestore(firebaseApp)
 export default boot( async ({app}) => {
   app.use(VueFire, {
     firebaseApp,
@@ -24,6 +25,5 @@ export default boot( async ({app}) => {
   })
 
   app.config.globalProperties.$fb = firebaseApp
-
-  let d = await getCurrentUser();
+  await getCurrentUser();
 })
