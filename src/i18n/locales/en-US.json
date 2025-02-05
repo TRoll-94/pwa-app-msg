@@ -4,6 +4,19 @@
   "email": "Email",
   "failed": "Action failed",
   "forgotYourPassword": "Forgot your password?",
+  "friendRequest": {
+    "created": "friendship request successfully submitted",
+    "errors": {
+      "emailIsYour": "You can't send a request to yourself",
+      "emailRequired": "Email is required",
+      "requestAlreadySent": "The request has already been sent.",
+      "userNotFound": "User not found"
+    },
+    "send": {
+      "message": "{name} has sent you a friend request!",
+      "title": "New friend!"
+    }
+  },
   "login": "Login",
   "loginButton": "Login",
   "loginPage": "Login Page",
