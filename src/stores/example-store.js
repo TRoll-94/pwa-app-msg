@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', {
+export const useFriendSearchStore = defineStore('friendSearch', {
   state: () => ({
-    counter: 0,
+    nameSearch: '',
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    getSearch() {
+      return this.nameSearch;
+    },
   },
   actions: {
-    increment() {
-      this.counter++;
+    setSearch(name) {
+      this.nameSearch = name;
     },
   },
 });

@@ -3,6 +3,7 @@ import {useCurrentUser} from "vuefire";
 import {useRoute, useRouter} from "vue-router";
 import {onMounted, watch} from "vue";
 import LogoutBtn from "components/authComponents/buttons/logoutBtn.vue";
+import FriendsList from "components/friedsList/cards/friendsListContainer.vue";
 
 const user = useCurrentUser()
 const router = useRouter()
@@ -52,14 +53,7 @@ const redirect = () => {
       show-if-above
       bordered
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-      </q-list>
+      <friends-list/>
     </q-drawer>
 
     <q-page-container>

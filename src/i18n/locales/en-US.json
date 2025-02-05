@@ -1,10 +1,13 @@
 {
   "alreadyRegistered": "Already registered",
+  "confirm": "Confirm",
+  "delete": "Delete",
   "dontHaveAccount": "Don't have an account?",
   "email": "Email",
   "failed": "Action failed",
   "forgotYourPassword": "Forgot your password?",
   "friendRequest": {
+    "activeFriendshipRequests": "Active friendship requests",
     "created": "friendship request successfully submitted",
     "errors": {
       "emailIsYour": "You can't send a request to yourself",
@@ -12,11 +15,14 @@
       "requestAlreadySent": "The request has already been sent.",
       "userNotFound": "User not found"
     },
+    "newFrom": "Request from {name}",
+    "newTo": "Request to {name}",
     "send": {
       "message": "{name} has sent you a friend request!",
       "title": "New friend!"
     }
   },
+  "friends": "Friends",
   "login": "Login",
   "loginButton": "Login",
   "loginPage": "Login Page",
@@ -26,10 +32,12 @@
   "projectTitle": "PWA App",
   "register": "Register",
   "registerTitle": "Register",
+  "reject": "Reject",
   "reset": "Reset",
   "resetPassword": "Reset Password",
   "resetPasswordInstructionNotify": "Instructions sent to {email}",
   "restorePassword": "Restore password",
+  "search": "Search",
   "success": "Action was successful",
   "successfulLogin": "Successful login",
   "successfulLogout": "You have been logged out",

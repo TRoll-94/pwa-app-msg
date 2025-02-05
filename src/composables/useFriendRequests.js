@@ -17,6 +17,8 @@ import {useCollection, useCurrentUser} from "vuefire";
 import {normalizeEmail, useUsers} from "src/composables/useUsers";
 import {useI18n} from "vue-i18n";
 import {useNotifications} from "src/composables/useNotifications";
+import {useFriendSearchStore} from "stores/example-store";
+import {computed, watchEffect} from "vue";
 
 
 export function useFriendRequests() {
@@ -26,6 +28,7 @@ export function useFriendRequests() {
   const {me} = useUsers()
   const {getUserByEmail} = useUsers()
   const {sendNotification} = useNotifications()
+  const friendSearchStore = useFriendSearchStore()
 
   const allRequestsQuery = query(
     friendRequestsRef,
@@ -38,6 +41,12 @@ export function useFriendRequests() {
     )
   )
   const allRequests = useCollection(allRequestsQuery)
+
+  const filteredRequests = computed(() => {
+    return allRequests.value.filter(request => {
+      return request.from.includes(friendSearchStore.getSearch) || request.to.includes(friendSearchStore.getSearch)
+    })
+  })
 
   const requestDocRef = (request) => doc(db, $oConst.dbNames.FRIEND_REQUESTS, request.id)
 
@@ -127,6 +136,7 @@ export function useFriendRequests() {
 
   return {
     allRequests,
+    filteredRequests,
     acceptFriendRequest,
     rejectFriendRequest,
     deleteFriendRequestByEmail,
