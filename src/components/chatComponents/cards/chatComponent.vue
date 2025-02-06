@@ -89,7 +89,7 @@ watch(messages, (value) => {
           :style="{height: chantBlockMaxHeight + 'px'}"
           class="q-pr-md"
         >
-          <div class="q-pa-md" v-if="messages.length">
+          <div v-if="messages.length">
             <q-chat-message
               :name="msg.from"
               v-for="msg in messages"
