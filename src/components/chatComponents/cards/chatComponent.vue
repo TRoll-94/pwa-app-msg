@@ -7,6 +7,8 @@ import {computed, nextTick, onMounted, ref, shallowRef, watch, watchEffect} from
 import {collection, orderBy, query} from "firebase/firestore";
 import {db} from "boot/fbBoot";
 import {useQuasar} from "quasar";
+import AvatarComponent from "components/baseComponents/utils/avatarComponent.vue";
+import {formatDistance} from "date-fns";
 
 const currentUser = useCurrentUser()
 const conversation = useConversation()
@@ -59,11 +61,17 @@ watch(messages, (value) => {
         >
           <div class="q-pa-md">
             <q-chat-message
+              :name="msg.from"
               v-for="msg in messages"
               :key="msg.id"
               :text="[msg?.text]"
               :sent="normalizeEmail(msg?.from) === normalizeEmail(currentUser.email)"
-            />
+              :stamp="formatDistance(msg.timestamp.toDate(), new Date())"
+            >
+              <template #avatar>
+                <avatar-component :text="msg.from" class="q-mx-sm"/>
+              </template>
+            </q-chat-message>
           </div>
         </q-scroll-area>
       </template>
@@ -74,6 +82,7 @@ watch(messages, (value) => {
     >
       <c-input
         v-model="newMessage"
+        @keyup.enter="sendMessage"
         :placeholder="$t('conversation.inputMessage') + '...'"
         style="flex: 1;"
       />
