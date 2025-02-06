@@ -1,40 +1,49 @@
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
 import {useFirebaseAuth} from "vuefire";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {useI18n} from "vue-i18n";
 import {useQuasar} from "quasar";
 import {useRouter} from "vue-router";
 import PasswordInput from "components/baseComponents/inputs/passwordInput.vue";
+import {useUsers} from "src/composables/useUsers";
 
 let username = ref('');
 let password = ref('');
 let error = ref(null);
 
 const auth = useFirebaseAuth()
-const { t } = useI18n()
+const {t} = useI18n()
 const $q = useQuasar()
 const router = useRouter()
+const users = useUsers()
 
 const submitHandler = () => {
   createUserWithEmailAndPassword(auth, username.value, password.value)
     .then(() => {
-      $q.notify({
-        color: 'positive',
-        message: t('successfulRegistration'),
-        timeout: 2000
+      users.createUser(username.value).then(() => {
+        $q.notify({
+          color: 'positive',
+          message: t('successfulRegistration'),
+          timeout: 2000
+        })
+        router.push({name: 'home'})
+      }).catch(err => {
+        $q.notify({
+          color: 'negative',
+          message: err.message,
+          timeout: 2000
+        })
       })
-      router.push({name: 'home'})
-    })
-    .catch(err => {
-      error.value = err
-    })
+    }).catch(err => {
+    error.value = err.message
+  })
 }
 </script>
 
 <template>
   <q-form @submit="submitHandler">
-    <c-error-box :error="error" />
+    <c-error-box :error="error"/>
     <c-input
       :label="$t('email')"
       type="email"

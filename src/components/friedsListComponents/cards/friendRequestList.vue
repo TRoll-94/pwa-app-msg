@@ -19,18 +19,22 @@ const friendActions = useFriendActions()
     <template v-if="req.to === normalizeEmail(currentUser.email)">
       <q-item-section>
         <q-item-label>{{ $t('friendRequest.newFrom', {name: req.from}) }}</q-item-label>
-      </q-item-section>
-      <q-item-section>
-        <q-btn @click="() => friendActions.confirmFriend(req)" :label="$t('confirm')" class="q-mr-xs"/>
-        <q-btn @click="() => friendRequests.rejectFriendRequest(req)" :label="$t('reject')"/>
+        <q-item-label caption>
+          <div class="row">
+            <c-btn @click="() => friendActions.confirmFriend(req)" :label="$t('confirm')" class="q-mr-xs" size="xs"/>
+            <c-btn @click="() => friendRequests.rejectFriendRequest(req)" :label="$t('reject')" size="xs"/>
+          </div>
+        </q-item-label>
       </q-item-section>
     </template>
     <template v-else>
       <q-item-section>
         <q-item-label>{{ $t('friendRequest.newTo', {name: req.to}) }}</q-item-label>
-      </q-item-section>
-      <q-item-section>
-        <q-btn @click="() => friendRequests.deleteFriendRequestByEmail(req.to)" :label="$t('delete')"/>
+        <q-item-label caption>
+          <div class="row">
+            <c-btn @click="() => friendRequests.deleteFriendRequestByEmail(req.to)" :label="$t('delete')" size="xs"/>
+          </div>
+        </q-item-label>
       </q-item-section>
     </template>
   </q-item>
