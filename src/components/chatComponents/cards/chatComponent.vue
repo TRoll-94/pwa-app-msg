@@ -77,6 +77,11 @@ watch(messages, (value) => {
 
 <template>
   <div class="q-pa-md row justify-center full-height">
+    <div class="absolute-top">
+      <div class="row q-pa-sm">
+        <c-btn icon="arrow_back" round outline to="/" size="sm"/>
+      </div>
+    </div>
     <div class="full-height full-width">
       <template v-if="conversationId">
         <q-scroll-area
@@ -84,7 +89,7 @@ watch(messages, (value) => {
           :style="{height: chantBlockMaxHeight + 'px'}"
           class="q-pr-md"
         >
-          <div class="q-pa-md">
+          <div class="q-pa-md" v-if="messages.length">
             <q-chat-message
               :name="msg.from"
               v-for="msg in messages"
@@ -98,28 +103,38 @@ watch(messages, (value) => {
               </template>
             </q-chat-message>
           </div>
+          <div v-else>
+            <div class="absolute-center">
+              <p>{{ $t('conversation.noMessages') }}</p>
+            </div>
+          </div>
         </q-scroll-area>
+        <q-space />
+        <div class="full-width row items-center no-wrap justify-between q-pt-md">
+          <c-input
+            v-model="newMessage"
+            @keyup.enter="sendMessage"
+            :placeholder="$t('conversation.inputMessage') + '...'"
+            style="flex: 1;"
+          />
+          <c-btn
+            :label="$t('send')"
+            class="q-ml-sm"
+            @click="sendMessage"
+          />
+          <c-btn
+            :label="$t('conversation.geo')"
+            icon="place"
+            class="q-ml-sm"
+            @click="sendGeolocation"
+          />
+        </div>
       </template>
-    </div>
-    <q-space />
-    <div class="full-width row items-center no-wrap justify-between q-pt-md">
-      <c-input
-        v-model="newMessage"
-        @keyup.enter="sendMessage"
-        :placeholder="$t('conversation.inputMessage') + '...'"
-        style="flex: 1;"
-      />
-      <c-btn
-        :label="$t('send')"
-        class="q-ml-sm"
-        @click="sendMessage"
-      />
-      <c-btn
-        :label="$t('conversation.geo')"
-        icon="place"
-        class="q-ml-sm"
-        @click="sendGeolocation"
-      />
+      <template v-else>
+        <div class="absolute-center">
+          <p>{{ $t('selectAfriend') }}</p>
+        </div>
+      </template>
     </div>
   </div>
 </template>

@@ -3,7 +3,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue'), name: 'home'}
+      { path: 'dialog', component: () => import('pages/DialogPage.vue'), name: 'dialog'},
+      { path: '', component: () => import('pages/IndexPage.vue'), name: 'home'},
     ],
     meta: { requiredAuth: true }
   },

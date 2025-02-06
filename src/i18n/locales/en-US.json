@@ -4,7 +4,8 @@
   "conversation": {
     "geo": "Geoposition",
     "geoNotSupported": "Ger in your browser is not supported",
-    "inputMessage": "Input message"
+    "inputMessage": "Input message",
+    "noMessages": "No messages"
   },
   "delete": "Delete",
   "dontHaveAccount": "Don't have an account?",
@@ -46,6 +47,7 @@
   "restorePassword": "Restore password",
   "save": "Save",
   "search": "Search",
+  "selectAfriend": "Select a friend",
   "success": "Action was successful",
   "successfulLogin": "Successful login",
   "successfulLogout": "You have been logged out",

@@ -44,9 +44,9 @@ const linkifiedText = computed(() => {
   <div>
     <div v-html="linkifiedText"></div>
 
-    <LinkPrevue :url="extractedLink" v-if="extractedLink">
+    <LinkPrevue :url="extractedLink" v-if="extractedLink"  style="max-width: 200px">
       <template v-slot="props">
-        <q-card v-if="props.img" flat class="q-mt-md">
+        <q-card v-if="props.img" flat class="q-mt-md" style="max-width: 200px">
           <q-img :src="props.img" :alt="props.title" height="120px"/>
           <q-card-section>
             <p>{{props.title}}</p>
