@@ -22,7 +22,7 @@
 import {defineComponent, ref} from 'vue'
 import ChatComponent from "components/ChatComponent.vue";
 import FriendRequest from "components/FriendRequest.vue";
-import FriendsListContainer from "components/friedsList/cards/friendsListContainer.vue";
+import FriendsListContainer from "components/friedsListComponents/cards/friendsListContainer.vue";
 import {useQuasar} from "quasar";
 
 const $q = useQuasar()

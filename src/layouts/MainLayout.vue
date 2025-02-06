@@ -3,7 +3,7 @@ import {useCurrentUser} from "vuefire";
 import {useRoute, useRouter} from "vue-router";
 import {onMounted, watch} from "vue";
 import LogoutBtn from "components/authComponents/buttons/logoutBtn.vue";
-import FriendsList from "components/friedsList/cards/friendsListContainer.vue";
+import FriendsList from "components/friedsListComponents/cards/friendsListContainer.vue";
 
 const user = useCurrentUser()
 const router = useRouter()

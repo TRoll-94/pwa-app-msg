@@ -1,9 +1,9 @@
 <script setup>
-import FriendSearchInput from "components/friedsList/inputs/friendSearchInput.vue";
-import FriendList from "components/friedsList/cards/friendList.vue";
-import FriendRequestList from "components/friedsList/cards/friendRequestList.vue";
+import FriendSearchInput from "components/friedsListComponents/inputs/friendSearchInput.vue";
+import FriendList from "components/friedsListComponents/cards/friendList.vue";
+import FriendRequestList from "components/friedsListComponents/cards/friendRequestList.vue";
 import {useFriendRequests} from "src/composables/useFriendRequests";
-import AddNewFriendBtn from "components/friedsList/buttons/addNewFriendBtn.vue";
+import AddNewFriendBtn from "components/friedsListComponents/buttons/addNewFriendBtn.vue";
 import {computed, ref} from "vue";
 
 const props = defineProps({
