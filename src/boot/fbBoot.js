@@ -18,7 +18,6 @@ export const firebaseApp = initializeApp({
   measurementId: "G-G5WS753TCB"
 })
 const vapid = 'BKm8V3UybQRMttfiRBnwmgcK_YAYTBNnLgoHKMW2AT9SGPxae6TBy224WJJkZT9cSXQG_H6VP78kTD2pFPs_3gM';
-export const pVapid = 'juDJTsnp9ZxZVYn3Ncpy6oRSjhkXYXT2rzj1Fca5y-E';
 export const $fb = {}
 
 
