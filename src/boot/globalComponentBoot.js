@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
-import baseBtn from "components/buttons/baseBtn.vue";
-import baseInput from "components/inputs/baseInput.vue";
-import ErrorBox from "components/utils/ErrorBox.vue";
+import baseBtn from "components/baseComponents/buttons/baseBtn.vue";
+import baseInput from "components/baseComponents/inputs/baseInput.vue";
+import ErrorBox from "components/baseComponents/utils/ErrorBox.vue";
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
