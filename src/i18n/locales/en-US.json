@@ -37,6 +37,8 @@
   "loginPage": "Login Page",
   "loginTitle": "Log in to your account",
   "logout": "Logout",
+  "networkRestored": "Network is restored",
+  "noNetwork": "No network",
   "noPreview": "No preview",
   "notification_denied": "You've blocked notifications; unfortunately, without them, you won't be aware of changes",
   "notification_generating_unique_token": "Generating unique notification key",

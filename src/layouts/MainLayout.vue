@@ -4,11 +4,13 @@ import {useRoute, useRouter} from "vue-router";
 import {onMounted, watch} from "vue";
 import webNotificationDialog from "components/notificationComponents/dialogs/webNotificationDialog.vue";
 import {Dialog, useQuasar} from "quasar";
+import {useNetworkStatus} from "src/composables/useNetworkStatus";
 
 const user = useCurrentUser()
 const router = useRouter()
 const route = useRoute()
 const $q = useQuasar()
+const {isOnline} = useNetworkStatus()
 
 watch(user, async (currentUser, previousUser) => {
   return redirect()
@@ -42,6 +44,9 @@ const redirect = () => {
 
 <template>
   <q-layout view="lHh Lpr lFf">
+    <div class="absolute-top-right z-max" v-if="!isOnline">
+      <c-error-box :error="$t('noNetwork')" />
+    </div>
     <q-page-container>
       <router-view />
     </q-page-container>
