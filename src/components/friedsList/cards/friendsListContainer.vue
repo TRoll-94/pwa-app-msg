@@ -4,6 +4,7 @@ import FriendList from "components/friedsList/cards/friendList.vue";
 import FriendRequestList from "components/friedsList/cards/friendRequestList.vue";
 import {useFriendRequests} from "src/composables/useFriendRequests";
 import AddNewFriendBtn from "components/friedsList/buttons/addNewFriendBtn.vue";
+import {computed, ref} from "vue";
 
 const props = defineProps({
 
@@ -14,9 +15,9 @@ const {allRequests} = useFriendRequests()
 </script>
 
 <template>
-<q-card class="full-width full-height" >
+<q-card class="full-width full-height">
   <q-card-section>
-    <div class="row full-width justify-between">
+    <div class="row full-width justify-between items-center no-wrap">
       <friend-search-input class="q-mr-md"/>
       <div>
         <add-new-friend-btn/>

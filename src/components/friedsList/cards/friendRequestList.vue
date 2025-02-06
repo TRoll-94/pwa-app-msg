@@ -26,7 +26,7 @@ const friendActions = useFriendActions()
       </q-item-section>
     </template>
     <template v-else>
-      <q-item-section >
+      <q-item-section>
         <q-item-label>{{ $t('friendRequest.newTo', {name: req.to}) }}</q-item-label>
       </q-item-section>
       <q-item-section>

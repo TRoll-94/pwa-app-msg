@@ -1,23 +1,35 @@
 <template>
-  <q-page class="flex flex-center">
-    <friend-request/>
-    <chat-component/>
-    <friends-list/>
+  <q-page>
+    <q-splitter
+      v-model="splitterModel"
+      :limits="[25, 100]"
+      class="full-width full-height"
+    >
+
+      <template v-slot:before>
+        <friends-list-container/>
+      </template>
+      <template v-slot:after v-if="!$q.platform.is.mobile">
+        <friend-request/>
+        <chat-component/>
+      </template>
+
+    </q-splitter>
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import {defineComponent, ref} from 'vue'
 import ChatComponent from "components/ChatComponent.vue";
 import FriendRequest from "components/FriendRequest.vue";
-import FriendsList from "components/FriendsList.vue";
+import FriendsListContainer from "components/friedsList/cards/friendsListContainer.vue";
+import {useQuasar} from "quasar";
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: {
-    FriendsList,
-    FriendRequest,
-    ChatComponent,
-  }
-})
+const $q = useQuasar()
+const splitterModel = ref(20)
+
+if ($q.platform.is.mobile) {
+  splitterModel.value = 100
+}
+
 </script>

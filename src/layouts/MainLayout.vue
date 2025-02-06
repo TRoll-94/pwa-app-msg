@@ -48,14 +48,6 @@ const redirect = () => {
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      show-if-above
-      bordered
-    >
-      <friends-list/>
-    </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
