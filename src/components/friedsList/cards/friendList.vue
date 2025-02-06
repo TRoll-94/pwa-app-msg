@@ -1,6 +1,7 @@
 <script setup>
 
 import {useFriends} from "src/composables/useFriends";
+import AvatarComponent from "components/utils/avatarComponent.vue";
 
 const friends = useFriends()
 
@@ -8,7 +9,8 @@ const friends = useFriends()
 
 <template>
 <q-list>
-  <q-item v-for="friend in friends.allFriends.value" :key="friend.id">
+  <q-item v-for="friend in friends.filterFriends.value" :key="friend.id" clickable>
+    <avatar-component :text="friend.name" class="q-mr-sm"/>
     <q-item-section>
       <q-item-label>{{ friend.name }}</q-item-label>
     </q-item-section>

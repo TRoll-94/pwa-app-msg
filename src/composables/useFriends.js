@@ -3,18 +3,28 @@ import {addDoc, collection, deleteDoc, doc, query, where} from "firebase/firesto
 import {db} from "boot/fbBoot";
 import {$oConst} from "boot/oConst";
 import {normalizeEmail, useUsers} from "src/composables/useUsers";
+import {useFriendSearchStore} from "stores/example-store";
+import {computed} from "vue";
 
 
 export function useFriends() {
   const currentUser = useCurrentUser()
   const users = useUsers()
   const friendRequestsRef = collection(db, $oConst.dbNames.FRIENDS)
+  const friendSearchStore = useFriendSearchStore()
 
   const allFriendsQuery = query(
     friendRequestsRef,
     where('user', '==', normalizeEmail(currentUser.value.email))
   )
   const allFriends = useCollection(allFriendsQuery)
+
+  const filterFriends = computed(() => {
+    return allFriends.value.filter(friend => {
+      return friend.friend.includes(friendSearchStore.getSearch)
+    })
+  })
+
 
   const createFriendship = async (friendUser) => {
     const friend = await users.getUserByEmail(friendUser.email)
@@ -83,6 +93,7 @@ export function useFriends() {
     createFriendship,
     deleteFriendship,
     allFriends,
+    filterFriends,
   }
 
 }
