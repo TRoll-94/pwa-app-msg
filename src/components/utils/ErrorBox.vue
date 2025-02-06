@@ -12,7 +12,7 @@ const {error} = defineProps({
     <q-banner class="bg-negative text-white q-mb-sm" rounded>
       <div class="row items-center">
         <div class="col">
-          <div>{{ error.message }}</div>
+          <div>{{ error.message || error }}</div>
         </div>
       </div>
     </q-banner>

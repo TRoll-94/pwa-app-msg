@@ -1,5 +1,5 @@
 import {useCurrentUser, useDocument} from "vuefire";
-import {collection, query, where, or, and, doc} from "firebase/firestore";import {db} from "boot/fbBoot";
+import {collection, query, where, or, and, doc, getDoc} from "firebase/firestore";import {db} from "boot/fbBoot";
 import {$oConst} from "boot/oConst";
 
 
@@ -14,7 +14,7 @@ export function useUsers() {
   const me = useDocument(doc(usersRef, normalizeEmail(currentUser.value.email)), {once: true}).value
 
   const getUserByEmail = async (email) => {
-    return useDocument(doc(usersRef, normalizeEmail(email)), {once: true}).value
+    return getDoc(doc(usersRef, normalizeEmail(email)))
   }
 
   return {

@@ -8,7 +8,7 @@
   "forgotYourPassword": "Forgot your password?",
   "friendRequest": {
     "activeFriendshipRequests": "Active friendship requests",
-    "created": "friendship request successfully submitted",
+    "created": "Friendship request successfully submitted",
     "errors": {
       "emailIsYour": "You can't send a request to yourself",
       "emailRequired": "Email is required",
@@ -37,6 +37,7 @@
   "resetPassword": "Reset Password",
   "resetPasswordInstructionNotify": "Instructions sent to {email}",
   "restorePassword": "Restore password",
+  "save": "Save",
   "search": "Search",
   "success": "Action was successful",
   "successfulLogin": "Successful login",

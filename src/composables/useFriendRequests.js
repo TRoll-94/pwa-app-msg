@@ -64,25 +64,26 @@ export function useFriendRequests() {
 
       const existedRequest = await findRequestByEmail(friendEmail)
       if (existedRequest) {
-        return reject(t('friendRequest.errors.alreadySent'))
+        return reject(t('friendRequest.errors.requestAlreadySent'))
       }
 
-      const friendUser = await getUserByEmail(friendEmail)
-      if (!friendUser) {
+      let friendUser = await getUserByEmail(friendEmail)
+      if (!friendUser.exists()) {
         return reject(t('friendRequest.errors.userNotFound'))
       }
+      friendUser = friendUser.data()
 
       try {
         await addDoc(friendRequestsRef, {
           from: currentUser.value.email.toLowerCase(),
-          to: friendEmail.value.trim().toLowerCase(),
+          to: friendEmail.trim().toLowerCase(),
           status: 'pending',
           createdAt: Timestamp.now()
         })
         sendNotification(
           friendEmail,
           t('friendRequest.send.title'),
-          t('friendRequest.send.message', {name: me.name || currentUser.email})
+          t('friendRequest.send.message', {name: me?.value?.name || currentUser.email})
         ).then()
         return resolve(t('friendRequest.created'))
       } catch (error) {
@@ -140,7 +141,8 @@ export function useFriendRequests() {
     acceptFriendRequest,
     rejectFriendRequest,
     deleteFriendRequestByEmail,
-    findRequestByEmail
+    findRequestByEmail,
+    addFriendRequest
   }
 }
 
