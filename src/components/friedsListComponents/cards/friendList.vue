@@ -1,7 +1,7 @@
 <script setup>
 
 import {useFriends} from "src/composables/useFriends";
-import AvatarComponent from "components/utils/avatarComponent.vue";
+import AvatarComponent from "components/baseComponents/utils/avatarComponent.vue";
 
 const friends = useFriends()
 

@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import {useFirebaseAuth} from "vuefire";
-import PasswordInput from "components/inputs/passwordInput.vue";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {useI18n} from "vue-i18n";
 import {useQuasar} from "quasar";
 import {useRouter} from "vue-router";
+import PasswordInput from "components/baseComponents/inputs/passwordInput.vue";
 
 let username = ref('');
 let password = ref('');

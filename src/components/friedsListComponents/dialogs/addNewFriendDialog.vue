@@ -2,7 +2,6 @@
 import {Notify, useDialogPluginComponent} from 'quasar'
 import {ref, watch} from "vue";
 import {useFriendRequests} from "src/composables/useFriendRequests";
-import ErrorBox from "components/utils/ErrorBox.vue";
 
 const props = defineProps({})
 
@@ -50,7 +49,7 @@ watch(friendEmail, (value) => {
           <c-btn :dense="false" :label="$t('save')" class="q-ml-sm" type="submit"/>
         </q-card-section>
         <q-card-section v-show="!!error">
-          <error-box :error="error" class="text-white"/>
+          <c-error-box :error="error" class="text-white"/>
         </q-card-section>
       </q-form>
     </q-card>
