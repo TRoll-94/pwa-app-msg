@@ -3,7 +3,7 @@ import {collection, query, where, or, and, doc, getDoc} from "firebase/firestore
 import {$oConst} from "boot/oConst";
 
 
-export const normalizeEmail = (email) => email.toLowerCase().trim()
+export const normalizeEmail = (email) => email?.toLowerCase()?.trim()
 
 
 export function useUsers() {

@@ -1,6 +1,9 @@
 {
   "alreadyRegistered": "Already registered",
   "confirm": "Confirm",
+  "conversation": {
+    "inputMessage": "Input message"
+  },
   "delete": "Delete",
   "dontHaveAccount": "Don't have an account?",
   "email": "Email",

@@ -12,7 +12,7 @@ let msgCollection = null
 let messages = null
 
 function sanitizeEmail(email) {
-  return email.replace(/\./g, ',').toLowerCase()
+  return email.toLowerCase().trim()
 }
 
 function getConversationId(email1, email2) {
