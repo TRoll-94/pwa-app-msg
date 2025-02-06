@@ -2,6 +2,8 @@
   "alreadyRegistered": "Already registered",
   "confirm": "Confirm",
   "conversation": {
+    "geo": "Geoposition",
+    "geoNotSupported": "Ger in your browser is not supported",
     "inputMessage": "Input message"
   },
   "delete": "Delete",
@@ -31,6 +33,8 @@
   "loginPage": "Login Page",
   "loginTitle": "Log in to your account",
   "logout": "Logout",
+  "noPreview": "No preview",
+  "open": "Open",
   "password": "Password",
   "projectTitle": "PWA App",
   "register": "Register",

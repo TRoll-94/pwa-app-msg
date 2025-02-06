@@ -1,53 +1,78 @@
 <script setup>
-import {useCollection, useCurrentUser} from "vuefire";
-import {useConversation} from "src/composables/useConversation";
-import {useRoute} from "vue-router";
-import {normalizeEmail} from "src/composables/useUsers";
-import {computed, nextTick, onMounted, ref, shallowRef, watch, watchEffect} from "vue";
-import {collection, orderBy, query} from "firebase/firestore";
-import {db} from "boot/fbBoot";
-import {useQuasar} from "quasar";
+import { useCollection, useCurrentUser } from "vuefire";
+import { useConversation } from "src/composables/useConversation";
+import { useRoute } from "vue-router";
+import { normalizeEmail } from "src/composables/useUsers";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { collection, orderBy, query } from "firebase/firestore";
+import { db } from "boot/fbBoot";
+import { useQuasar } from "quasar";
 import AvatarComponent from "components/baseComponents/utils/avatarComponent.vue";
-import {formatDistance} from "date-fns";
+import { formatDistance } from "date-fns";
+import {useI18n} from "vue-i18n";
+import MessageText from "components/chatComponents/cards/messageText.vue";
 
-const currentUser = useCurrentUser()
-const conversation = useConversation()
-const route = useRoute()
+const currentUser = useCurrentUser();
+const conversation = useConversation();
+const route = useRoute();
 
-let conversationId = null
-let msgCollection = null
-let newMessage = ref('')
-let $q = useQuasar()
-const scrollAreaRef = ref(null)
+let conversationId = null;
+let msgCollection = null;
+let newMessage = ref('');
+const {t} = useI18n();
+const $q = useQuasar();
+const scrollAreaRef = ref(null);
 
 let messagesQuery = computed(() => {
-  if (!currentUser.value || !route.query.email) return null
-  conversationId = conversation.getConversationId(currentUser.value.email, route.query.email)
-  msgCollection = collection(db, `conversations/${conversationId}/messages`)
-  return query(msgCollection, orderBy('timestamp'))
-})
+  if (!currentUser.value || !route.query.email) return null;
+  conversationId = conversation.getConversationId(currentUser.value.email, route.query.email);
+  msgCollection = collection(db, `conversations/${conversationId}/messages`);
+  return query(msgCollection, orderBy('timestamp'));
+});
 
-let messages = useCollection(messagesQuery)
+let messages = useCollection(messagesQuery);
 
 const chantBlockMaxHeight = computed(() => {
-  return $q.screen.height - 88
-})
+  return $q.screen.height - 88;
+});
 
 const sendMessage = async () => {
-  await conversation.sendMessage(newMessage.value, msgCollection)
-  newMessage.value = ''
-  scrollBottom()
-}
+  if (!newMessage.value.trim()) return;
+  await conversation.sendMessage(newMessage.value, msgCollection);
+  newMessage.value = '';
+  scrollBottom();
+};
+
+const sendGeolocation = async () => {
+  if (!navigator.geolocation) {
+    $q.notify({
+      type: 'negative',
+      message: t('conversation.geoNotSupported')
+    });
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const { latitude, longitude } = position.coords;
+    const locationUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    await conversation.sendMessage(`${t("conversation.geo")}: `  + locationUrl, msgCollection);
+    scrollBottom();
+  }, (error) => {
+    $q.notify({
+      type: 'negative',
+      message: error.message
+    });
+  });
+};
 
 const scrollBottom = () => {
-  scrollAreaRef.value.setScrollPosition('vertical', 99999999, 100)
-}
+  scrollAreaRef.value.setScrollPosition('vertical', 99999999, 100);
+};
 
 watch(messages, (value) => {
   nextTick(() => {
-    scrollBottom()
-  })
-})
+    scrollBottom();
+  });
+});
 </script>
 
 <template>
@@ -64,22 +89,20 @@ watch(messages, (value) => {
               :name="msg.from"
               v-for="msg in messages"
               :key="msg.id"
-              :text="[msg?.text]"
               :sent="normalizeEmail(msg?.from) === normalizeEmail(currentUser.email)"
               :stamp="formatDistance(msg.timestamp.toDate(), new Date())"
             >
+              <message-text :text="msg.text"/>
               <template #avatar>
-                <avatar-component :text="msg.from" class="q-mx-sm"/>
+                <avatar-component :text="msg.from" class="q-mx-sm" />
               </template>
             </q-chat-message>
           </div>
         </q-scroll-area>
       </template>
     </div>
-    <q-space/>
-    <div
-      class="full-width row items-center no-wrap justify-between q-pt-md"
-    >
+    <q-space />
+    <div class="full-width row items-center no-wrap justify-between q-pt-md">
       <c-input
         v-model="newMessage"
         @keyup.enter="sendMessage"
@@ -87,12 +110,22 @@ watch(messages, (value) => {
         style="flex: 1;"
       />
       <c-btn
-        :label="$t('send')" class="q-ml-sm"
+        :label="$t('send')"
+        class="q-ml-sm"
         @click="sendMessage"
+      />
+      <c-btn
+        :label="$t('conversation.geo')"
+        icon="place"
+        class="q-ml-sm"
+        @click="sendGeolocation"
       />
     </div>
   </div>
 </template>
 
 <style scoped>
+.full-height {
+  height: 100vh;
+}
 </style>
