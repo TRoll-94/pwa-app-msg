@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "PWA App description",
   "productName": "PWA App",
-  "author": "TRoll-94 <surnin2003@mail.ru>",
+  "author": "TRoll-94 <surnin2003@mail.ru>, Kyrtymd <kurt@mail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
