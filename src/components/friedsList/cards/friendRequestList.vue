@@ -3,9 +3,11 @@
 import {useFriendRequests} from "src/composables/useFriendRequests";
 import {useCurrentUser} from "vuefire";
 import {normalizeEmail} from "src/composables/useUsers";
+import {useFriendActions} from "src/composables/useFriendActions";
 
 const friendRequests = useFriendRequests()
 const currentUser = useCurrentUser()
+const friendActions = useFriendActions()
 
 
 </script>
@@ -19,7 +21,7 @@ const currentUser = useCurrentUser()
         <q-item-label>{{ $t('friendRequest.newFrom', {name: req.from}) }}</q-item-label>
       </q-item-section>
       <q-item-section>
-        <q-btn @click="() => friendRequests.acceptFriendRequest(req)" :label="$t('confirm')" class="q-mr-xs"/>
+        <q-btn @click="() => friendActions.confirmFriend(req)" :label="$t('confirm')" class="q-mr-xs"/>
         <q-btn @click="() => friendRequests.rejectFriendRequest(req)" :label="$t('reject')"/>
       </q-item-section>
     </template>

@@ -18,7 +18,7 @@ import {normalizeEmail, useUsers} from "src/composables/useUsers";
 import {useI18n} from "vue-i18n";
 import {useNotifications} from "src/composables/useNotifications";
 import {useFriendSearchStore} from "stores/example-store";
-import {computed, watchEffect} from "vue";
+import {computed} from "vue";
 
 
 export function useFriendRequests() {

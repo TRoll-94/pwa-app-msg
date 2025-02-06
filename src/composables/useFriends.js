@@ -1,5 +1,5 @@
-import {useCurrentUser} from "vuefire";
-import {collection} from "firebase/firestore";
+import {useCollection, useCurrentUser} from "vuefire";
+import {addDoc, collection, deleteDoc, doc, query, where} from "firebase/firestore";
 import {db} from "boot/fbBoot";
 import {$oConst} from "boot/oConst";
 import {normalizeEmail, useUsers} from "src/composables/useUsers";
@@ -10,57 +10,79 @@ export function useFriends() {
   const users = useUsers()
   const friendRequestsRef = collection(db, $oConst.dbNames.FRIENDS)
 
+  const allFriendsQuery = query(
+    friendRequestsRef,
+    where('user', '==', normalizeEmail(currentUser.value.email))
+  )
+  const allFriends = useCollection(allFriendsQuery)
+
   const createFriendship = async (friendUser) => {
     const friend = await users.getUserByEmail(friendUser.email)
-    await db.collection($oConst.dbNames.FRIENDS).add({
+    await addDoc(friendRequestsRef,{
       user: normalizeEmail(currentUser.value.email),
       friend: normalizeEmail(friendUser.email),
-      name: friend.name,
+      name: friend?.name || friendUser.email,
       chatBackground: '',
       blocked: false,
     })
-    await db.collection($oConst.dbNames.FRIENDS).add({
-      user: normalizeEmail(friendUser),
+    await addDoc(friendRequestsRef,{
+      user: normalizeEmail(friendUser.email),
       friend: normalizeEmail(currentUser.value.email),
-      name: users.me.value.name,
+      name: users.me?.value?.name || currentUser.value.email,
       chatBackground: '',
       blocked: false,
     })
   }
+
+  const objDocRef = (id) => doc(db, $oConst.dbNames.FRIENDS, id)
 
   const deleteFriendship = async (friendEmail) => {
     const friend = await users.getUserByEmail(friendEmail)
-    const friendDoc = await db.collection($oConst.dbNames.FRIENDS).where('user', '==', normalizeEmail(currentUser.value.email)).where('friend', '==', normalizeEmail(friendEmail)).get()
-    friendDoc.forEach(async (doc) => {
-      await db.collection($oConst.dbNames.FRIENDS).doc(doc.id).delete()
+    const friendDoc = useCollection(
+      query(
+        friendRequestsRef,
+        where('user', '==', normalizeEmail(currentUser.value.email)),
+        where('friend', '==', normalizeEmail(friendEmail))
+      ), {once: true}
+    )
+    friendDoc.value.forEach(async (doc) => {
+      await deleteDoc(objDocRef(doc.id))
     })
-    const userDoc = await db.collection($oConst.dbNames.FRIENDS).where('user', '==', normalizeEmail(friendEmail)).where('friend', '==', normalizeEmail(currentUser.value.email)).get()
-    userDoc.forEach(async (doc) => {
-      await db.collection($oConst.dbNames.FRIENDS).doc(doc.id).delete()
+    const userDoc = useCollection(
+      query(
+        friendRequestsRef,
+        where('user', '==', normalizeEmail(friendEmail)),
+        where('friend', '==', normalizeEmail(currentUser.value.email))
+      )
+    )
+    userDoc.value.forEach(async (doc) => {
+      await deleteDoc(objDocRef(doc.id))
     })
   }
 
-  const blockFriend = async (friendEmail) => {
-    const friendDoc = await db.collection($oConst.dbNames.FRIENDS).where('user', '==', normalizeEmail(currentUser.value.email)).where('friend', '==', normalizeEmail(friendEmail)).get()
-    friendDoc.forEach(async (doc) => {
-      await db.collection($oConst.dbNames.FRIENDS).doc(doc.id).update({
-        blocked: true
+  const blockFriend = async (friendEmail, block=true) => {
+    const friendDoc = useCollection(
+      query(
+        friendRequestsRef,
+        where('user', '==', normalizeEmail(currentUser.value.email)),
+        where('friend', '==', normalizeEmail(friendEmail))
+      )
+    )
+    friendDoc.value.forEach(async (doc) => {
+      await docUpdate(objDocRef(doc.id), {
+        blocked: block
       })
     })
   }
 
   const unblockFriend = async (friendEmail) => {
-    const friendDoc = await db.collection($oConst.dbNames.FRIENDS).where('user', '==', normalizeEmail(currentUser.value.email)).where('friend', '==', normalizeEmail(friendEmail)).get()
-    friendDoc.forEach(async (doc) => {
-      await db.collection($oConst.dbNames.FRIENDS).doc(doc.id).update({
-        blocked: false
-      })
-    })
+    return blockFriend(friendEmail, false)
   }
 
   return {
     createFriendship,
     deleteFriendship,
+    allFriends,
   }
 
 }
