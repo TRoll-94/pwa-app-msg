@@ -1,5 +1,5 @@
 import {$oConst} from "boot/oConst";
-import {db, pVapid} from "boot/fbBoot";
+import {db} from "boot/fbBoot";
 import {collection, query, where, getDocs, doc, setDoc, addDoc} from "firebase/firestore";
 import { useCurrentUser } from "vuefire";
 import {normalizeEmail} from "src/composables/useUsers";
@@ -62,7 +62,7 @@ export function useNotifications() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + pVapid,
+          "Authorization": "Bearer ",
         },
         body: JSON.stringify(payload),
       });
