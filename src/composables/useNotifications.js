@@ -1,7 +1,8 @@
 import {$oConst} from "boot/oConst";
-import { db } from "boot/fbBoot";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {db, pVapid} from "boot/fbBoot";
+import {collection, query, where, getDocs, doc, setDoc, addDoc} from "firebase/firestore";
 import { useCurrentUser } from "vuefire";
+import {normalizeEmail} from "src/composables/useUsers";
 
 export function useNotifications() {
   const currentUser = useCurrentUser();
@@ -12,10 +13,20 @@ export function useNotifications() {
   //   notificationsEnabled: bool
   const notificationsRef = collection(db, $oConst.dbNames.NOTIFICATIONS);
 
+  const addNotification = async (fcmToken, isEnabled) => {
+    let email = normalizeEmail(currentUser.value.email);
+    let docR = doc(db, $oConst.dbNames.NOTIFICATIONS, fcmToken);
+    return await setDoc(docR, {
+      email: normalizeEmail(email),
+      fcmToken: fcmToken,
+      notificationsEnabled: isEnabled,
+    });
+  }
+
   const sendNotification = async (toEmail, title, message) => {
-    return;
+    return
     try {
-      const q = query(notificationsRef, where("email", "==", toEmail));
+      const q = query(notificationsRef, where("email", "==", normalizeEmail(toEmail)));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
@@ -38,19 +49,20 @@ export function useNotifications() {
         return;
       }
       const payload = {
-        to: token,
-        notification: {
-          title: title,
-          body: message,
+        message: {
+          token: token,
+          notification: {
+            title: title,
+            body: message,
+          },
         }
       };
 
-      const serverKey = "YOUR_SERVER_KEY";
-      const response = await fetch("https://fcm.googleapis.com/fcm/send", {
+      const response = await fetch("https://fcm.googleapis.com/v1/projects/todos-e93c9/messages:send", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "key=" + serverKey,
+          "Authorization": "Bearer " + pVapid,
         },
         body: JSON.stringify(payload),
       });
@@ -62,5 +74,6 @@ export function useNotifications() {
 
   return {
     sendNotification,
+    addNotification,
   };
 }

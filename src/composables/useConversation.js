@@ -3,13 +3,13 @@ import {normalizeEmail} from "src/composables/useUsers";
 import {addDoc, collection, query, Timestamp, orderBy} from "firebase/firestore";
 import {db} from "boot/fbBoot";
 import {ref} from "vue";
+import {useNotifications} from "src/composables/useNotifications";
 
 
 export function useConversation() {
   const currentUser = useCurrentUser()
 
-  const conversationId = ref(null)
-  let msgCollection = null
+  const notifications = useNotifications();
 
   function getConversationId(email1, email2) {
     const s1 = normalizeEmail(email1)
@@ -18,12 +18,15 @@ export function useConversation() {
     return l.join(':')
   }
 
-  const sendMessage = (newMessage, collection) => {
+  const sendMessage = (newMessage, collection, toEmail) => {
     if (!newMessage.trim()) return
-    return addDoc(collection, {
+    addDoc(collection, {
       text: newMessage,
       from: currentUser.value.email,
       timestamp: Timestamp.now()
+    }).then(() => {
+      let title = 'New message from ' + currentUser.value.email
+      notifications.sendNotification(toEmail, title, newMessage).then()
     })
   }
 

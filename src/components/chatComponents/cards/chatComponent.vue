@@ -38,7 +38,7 @@ const chantBlockMaxHeight = computed(() => {
 
 const sendMessage = async () => {
   if (!newMessage.value.trim()) return;
-  await conversation.sendMessage(newMessage.value, msgCollection);
+  conversation.sendMessage(newMessage.value, msgCollection, route.query.email);
   newMessage.value = '';
   scrollBottom();
 };
